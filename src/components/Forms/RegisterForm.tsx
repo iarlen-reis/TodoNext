@@ -1,8 +1,12 @@
 'use client'
 import Link from 'next/link'
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useAuthContext } from '@/contexts/authContext'
+import { InputField } from '../InputField'
+import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 interface IFormProps {
   name: string
@@ -11,16 +15,29 @@ interface IFormProps {
 }
 
 export const RegisterForm = () => {
-  const { userRegister, loadingRegister } = useAuthContext()
+  const [loadingRegister, setLoadingRegister] = useState(false)
+  const { userRegister } = useAuthContext()
+  const router = useRouter()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormProps>()
+  const methods = useForm<IFormProps>()
 
   const handleCreateUser = (user: IFormProps) => {
+    setLoadingRegister(true)
     userRegister(user)
+      .then((response) => {
+        router.push('/login')
+        console.log('criei')
+      })
+      .catch((error: AxiosError | AxiosError) => {
+        if (error.response?.data) {
+          const { error: message } = error.response.data
+
+          toast.error(message)
+        }
+      })
+      .finally(() => {
+        setLoadingRegister(false)
+      })
   }
 
   return (
@@ -31,66 +48,59 @@ export const RegisterForm = () => {
           Crie sua conta agora.
         </p>
       </div>
-      <form
-        onSubmit={handleSubmit(handleCreateUser)}
-        className="mt-7 flex w-full flex-col gap-4"
-      >
-        <label className="flex flex-col gap-1 font-body">
-          <span className="text-sm font-medium text-zinc-500">
-            Nome completo
-          </span>
-          <input
-            type="text"
-            className="w-full rounded-md border border-zinc-400 px-2 py-3 text-zinc-700 outline-none focus:border-blue-300"
-            {...register('name', { required: true })}
-          />
-          <small className="text-red-500">
-            {errors.name?.type === 'required' && 'Campo é obrigatório.'}
-          </small>
-        </label>
-        <label className="flex flex-col gap-1 font-body">
-          <span className="text-sm font-medium text-zinc-500">E-mail</span>
-          <input
-            type="email"
-            className="w-full rounded-md border border-zinc-400 px-2 py-3 text-zinc-700 outline-none focus:border-blue-300"
-            {...register('email', { required: true })}
-          />
-          <small className="text-red-500">
-            {errors.email?.type === 'required' && 'Campo é obrigatório.'}
-          </small>
-        </label>
-        <label className="flex flex-col gap-1 font-body">
-          <span className="text-sm font-medium text-zinc-500">Senha</span>
-          <input
-            type="password"
-            className="w-full rounded-md border border-zinc-400 px-2 py-3 text-zinc-700 outline-none focus:border-blue-300"
-            {...register('password', {
-              required: true,
-              minLength: 6,
-            })}
-          />
-          <small className="text-red-500">
-            {errors.password?.type === 'required' && 'Campo é obrigatório.'}
-            {errors.password?.type === 'minLength' &&
-              'Senha menor que 6 caracteres.'}
-          </small>
-        </label>
-        <button
-          disabled={loadingRegister}
-          className="w-full rounded-md bg-blue-600 py-3 text-center font-medium text-white"
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(handleCreateUser)}
+          className="mt-7 flex w-full flex-col gap-4"
         >
-          Cadastrar
-        </button>
-        <p className="mt-2 text-center font-body text-sm italic text-zinc-500">
-          Já possui uma conta?{' '}
-          <Link
-            href="/login"
-            className="font-body font-medium text-blue-600 hover:text-blue-700"
+          <InputField
+            name="name"
+            label="Nome completo"
+            disabled={loadingRegister}
+            placeholder="Nikola Jokic "
+            rules={{ required: 'Campo obrigatório.' }}
+          />
+          <InputField
+            name="email"
+            label="E-mail"
+            type="email"
+            disabled={loadingRegister}
+            placeholder="Email@email.com"
+            rules={{ required: 'Campo obrigatório.' }}
+          />
+          <InputField
+            name="password"
+            label="Senha"
+            type="password"
+            disabled={loadingRegister}
+            placeholder="**********"
+            rules={{
+              required: 'Campo obrigatório.',
+              minLength: {
+                value: 6,
+                message: 'Deve conter no mínimo 6 caracteres.',
+              },
+            }}
+          />
+          <button
+            disabled={loadingRegister}
+            className="w-full rounded-md bg-blue-600 py-3 text-center font-medium text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:bg-zinc-500"
           >
-            Login
-          </Link>
-        </p>
-      </form>
+            {loadingRegister ? 'Aguarde...' : 'Cadastrar'}
+          </button>
+          {!loadingRegister && (
+            <p className="mt-2 text-center font-body text-sm italic text-zinc-500">
+              Já possui uma conta?{' '}
+              <Link
+                href="/login"
+                className="font-body font-medium text-blue-600 hover:underline"
+              >
+                Login
+              </Link>
+            </p>
+          )}
+        </form>
+      </FormProvider>
     </div>
   )
 }
