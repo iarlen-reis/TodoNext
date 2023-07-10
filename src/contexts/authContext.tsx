@@ -1,7 +1,5 @@
 import { api } from '@/services/api'
-import { useRouter } from 'next/navigation'
 import { ReactNode, createContext, useContext } from 'react'
-import { useMutation } from 'react-query'
 
 interface IUserProps {
   name: string
@@ -14,29 +12,22 @@ interface IAuthProviderProps {
 }
 
 interface IAuthContextProps {
-  userRegister: (user: IUserProps) => void
-  loadingRegister: boolean
+  userRegister: (user: IUserProps) => Promise<void>
 }
 
 export const AuthContext = createContext({} as IAuthContextProps)
 
 export const AuthProvider = ({ children }: IAuthProviderProps) => {
-  const router = useRouter()
+  const userRegister = async (user: IUserProps): Promise<void> => {
+    const response = await api.post('/users', user)
 
-  const { mutate: userRegister, isLoading: loadingRegister } = useMutation(
-    (user: IUserProps) => api.post('/users', user),
-    {
-      onSuccess: () => {
-        router.push('/')
-      },
-    },
-  )
+    return response.data
+  }
 
   return (
     <AuthContext.Provider
       value={{
         userRegister,
-        loadingRegister,
       }}
     >
       {children}
