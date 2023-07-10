@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials, req): Promise<any> {
         if (!credentials?.email || !credentials.password) {
-          throw new Error('E-mail ou senha inválida.')
+          throw new Error('Credenciais necessárias.')
         }
 
         const user = await prisma.user.findUnique({
@@ -36,7 +36,7 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (!user) {
-          throw new Error('Usuário não existe.')
+          throw new Error('E-mail ou senha inválida.')
         }
 
         if (!user.password) {
