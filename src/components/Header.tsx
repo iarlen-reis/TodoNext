@@ -17,13 +17,7 @@ export const Header = async () => {
           NextTodo
         </Link>
         <ul className="flex list-none items-center gap-5">
-          {!session ? (
-            <li>
-              <Link href="/login" className="text-zinc-50">
-                Login
-              </Link>
-            </li>
-          ) : (
+          {session && (
             <>
               <li>
                 <Link href="/profile">
