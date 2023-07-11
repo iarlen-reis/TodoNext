@@ -1,7 +1,7 @@
 import React from 'react'
-import { RegisterForm } from '@/components/Forms/RegisterForm'
+import { RegisterForm } from '@/components/forms/RegisterForm'
 import RegisterImage from '/public/register-image.png'
-import { DescriptionForm } from '@/components/Forms/DescriptionForm'
+import { DescriptionForm } from '@/components/forms/DescriptionForm'
 
 const Register = () => {
   return (

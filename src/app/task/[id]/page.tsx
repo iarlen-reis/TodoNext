@@ -3,9 +3,9 @@
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
 import { formateDateToShow } from '@/utils/formateDate'
-import { ButtonsTask } from '@/components/ButtonsTask'
 import { useQuery } from 'react-query'
 import { api } from '@/services/api'
+import { ButtonsTask } from '@/components/buttons/ButtonsTask'
 
 interface IParamProps {
   params: {

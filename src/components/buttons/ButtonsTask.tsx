@@ -1,8 +1,8 @@
 'use client'
 import { Check } from 'lucide-react'
 import { useTasks } from '@/hooks/useTasks'
-import DeleteButton from './DeleteButton'
 import { IButtonsTaskProps } from '@/Types/components/ButtonsTaskTypes'
+import DeleteButton from './DeleteButton'
 
 export const ButtonsTask = ({ id, status }: IButtonsTaskProps) => {
   const { finishTask } = useTasks()

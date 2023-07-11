@@ -1,9 +1,8 @@
-/* eslint-disable import/no-absolute-path */
 import React from 'react'
 
-import { LoginForm } from '@/components/Forms/LoginForm'
+import { LoginForm } from '@/components/forms/LoginForm'
 import LoginImage from '/public/login-image.png'
-import { DescriptionForm } from '@/components/Forms/DescriptionForm'
+import { DescriptionForm } from '@/components/forms/DescriptionForm'
 
 export async function generateMetadata() {
   return {
