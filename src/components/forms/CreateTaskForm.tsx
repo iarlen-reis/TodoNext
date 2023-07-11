@@ -4,8 +4,8 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTasks } from '@/hooks/useTasks'
 import { allowedColors } from '@/utils/TasksColors'
 import { toast } from 'react-toastify'
-import { InputField } from '../InputField'
-import { TextAreaField } from '../TextAreaField'
+import { InputField } from '../inputs/InputField'
+import { TextAreaField } from '../inputs/TextAreaField'
 
 interface IFormProps {
   title: string

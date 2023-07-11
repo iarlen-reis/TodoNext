@@ -3,10 +3,10 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useAuthContext } from '@/contexts/authContext'
-import { InputField } from '../InputField'
 import { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { InputField } from '../inputs/InputField'
 
 interface IFormProps {
   name: string

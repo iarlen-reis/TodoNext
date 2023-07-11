@@ -5,9 +5,9 @@ import { BiLogoGmail } from 'react-icons/bi'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
 import { FormProvider, useForm } from 'react-hook-form'
-import { InputField } from '../InputField'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { InputField } from '../inputs/InputField'
 
 interface IFormProps {
   email: string
