@@ -21,4 +21,5 @@ export interface IUseTasksProps {
   deleteTask: (id: string) => void
   createTask: (task: IFormProps) => void
   loadingCreate: boolean
+  tasksLoading: boolean
 }

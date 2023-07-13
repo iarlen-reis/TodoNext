@@ -31,7 +31,7 @@ export const useTasks = (): IUseTasksProps => {
     },
   )
 
-  const { data: tasks } = useQuery(
+  const { data: tasks, isLoading: tasksLoading } = useQuery(
     ['tasks'],
     async () => {
       const response = await api.get<ITasksProps[]>('/tasks')
@@ -97,5 +97,12 @@ export const useTasks = (): IUseTasksProps => {
     },
   )
 
-  return { tasks, createTask, finishTask, deleteTask, loadingCreate }
+  return {
+    tasks,
+    createTask,
+    finishTask,
+    deleteTask,
+    loadingCreate,
+    tasksLoading,
+  }
 }
