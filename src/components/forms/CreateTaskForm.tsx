@@ -38,6 +38,7 @@ export const CreateTaskForm = () => {
           label="título"
           name="title"
           rules={{ required: 'Campo obrigatório.' }}
+          maxLength={15}
         />
         <InputField
           label="Data de conclusão"
@@ -45,12 +46,7 @@ export const CreateTaskForm = () => {
           type="date"
           rules={{ required: 'Campo obrigatório.' }}
         />
-        <TextAreaField
-          name="description"
-          label="Descrição"
-          cols={30}
-          rows={8}
-        />
+        <TextAreaField name="description" label="Descrição" rows={8} />
         <InputField
           name="color"
           type="color"
