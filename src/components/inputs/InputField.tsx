@@ -30,13 +30,13 @@ export const InputField = ({
   })
 
   return (
-    <fieldset className="flex flex-col gap-1">
-      <label htmlFor={name} className="font-body font-medium">
+    <fieldset className="flex w-full flex-col gap-1">
+      <label htmlFor={name} className="w-full font-body font-medium">
         {label}
       </label>
       <input
         type={type}
-        className="rounded-md border border-zinc-400 bg-zinc-300 p-3 outline-none focus:border-blue-400"
+        className="w-full rounded-md border border-zinc-400 bg-zinc-300 p-3 outline-none focus:border-blue-400"
         ref={ref}
         {...inputProps}
         {...rest}

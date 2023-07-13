@@ -27,12 +27,12 @@ export const TextAreaField = ({
   })
 
   return (
-    <fieldset className="flex flex-col gap-1">
+    <fieldset className="flex max-w-full flex-col gap-1">
       <label htmlFor={name} className="font-body font-medium">
         {label}
       </label>
       <textarea
-        className="rounded-md border border-zinc-400 bg-zinc-300 p-3 outline-none focus:border-blue-400"
+        className="w-full rounded-md border border-zinc-400 bg-zinc-300 p-3 outline-none focus:border-blue-400"
         ref={ref}
         {...inputProps}
         {...rest}
