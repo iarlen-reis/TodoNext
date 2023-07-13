@@ -67,7 +67,7 @@ const Task = ({ params: { id } }: IParamProps) => {
             <span className="font-body text-sm text-zinc-800 sm:text-lg">
               Descrição:
             </span>
-            <p className="h-[300px] rounded-md border border-zinc-400 p-2 font-body text-sm text-zinc-800">
+            <p className="h-[300px] rounded-md p-2 font-body text-sm text-zinc-800">
               {task.description}
             </p>
           </div>
