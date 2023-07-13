@@ -1,5 +1,6 @@
 'use client'
 import { useTasks } from '@/hooks/useTasks'
+import { ProfileStatsSkeleton } from './skeletons/ProfileStatsSkeleton'
 
 const ProfileStats = () => {
   const { tasks } = useTasks()
@@ -9,14 +10,22 @@ const ProfileStats = () => {
   return (
     <div className="mx-auto flex w-[200px] flex-col gap-1 text-center">
       <h2 className=" font-title text-lg font-bold">Tarefas</h2>
-      <div className="flex w-full justify-between ">
-        <p className="font-body text-sm font-medium">
-          Pendentes: <span>{tasksPendding?.length}</span>
-        </p>
-        <p className="font-body text-sm font-medium">
-          Conclúidas: <span>{tasksFinished?.length}</span>
-        </p>
-      </div>
+      {tasks ? (
+        <>
+          <div className="flex w-full justify-between ">
+            <p className="font-body text-sm font-medium">
+              Pendentes: <span>{tasksPendding?.length}</span>
+            </p>
+            <p className="font-body text-sm font-medium">
+              Conclúidas: <span>{tasksFinished?.length}</span>
+            </p>
+          </div>
+        </>
+      ) : (
+        <>
+          <ProfileStatsSkeleton />
+        </>
+      )}
     </div>
   )
 }
