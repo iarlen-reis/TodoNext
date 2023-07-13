@@ -1,27 +1,38 @@
 'use client'
-import { Check } from 'lucide-react'
+import { Check, Trash2 } from 'lucide-react'
 import { useTasks } from '@/hooks/useTasks'
 import { IButtonsTaskProps } from '@/Types/components/ButtonsTaskTypes'
-import DeleteButton from './DeleteButton'
 
 export const ButtonsTask = ({ id, status }: IButtonsTaskProps) => {
-  const { finishTask } = useTasks()
+  const { finishTask, deleteTask } = useTasks()
 
   const handleFinishTask = async () => {
     finishTask(id)
   }
 
+  const handleDeleteTask = async () => {
+    deleteTask(id)
+  }
+
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-3">
       {status === 'pendente' && (
         <button
           onClick={handleFinishTask}
-          className="cursor-pointer bg-transparent"
+          className="group flex h-10 w-10 items-center justify-center rounded-full p-1 hover:bg-zinc-900"
         >
-          <Check className="text-green-500" size={25} />
+          <Check
+            className="text-green-500 group-hover:text-gray-100"
+            size={22}
+          />
         </button>
       )}
-      <DeleteButton id={id} />
+      <button
+        onClick={handleDeleteTask}
+        className="group flex h-10 w-10 items-center justify-center rounded-full p-1 hover:bg-zinc-900"
+      >
+        <Trash2 size={22} className="text-red-600 group-hover:text-zinc-100" />
+      </button>
     </div>
   )
 }
