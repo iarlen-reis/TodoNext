@@ -19,19 +19,19 @@ export const ButtonsTask = ({ id, status }: IButtonsTaskProps) => {
       {status === 'pendente' && (
         <button
           onClick={handleFinishTask}
-          className="group flex h-10 w-10 items-center justify-center rounded-full p-1 hover:bg-zinc-900"
+          className="group flex h-10 w-10 items-center justify-center rounded-full p-1 hover:bg-green-300"
         >
           <Check
-            className="text-green-500 group-hover:text-gray-100"
+            className="text-green-500 group-hover:text-green-800"
             size={22}
           />
         </button>
       )}
       <button
         onClick={handleDeleteTask}
-        className="group flex h-10 w-10 items-center justify-center rounded-full p-1 hover:bg-zinc-900"
+        className="group flex h-10 w-10 items-center justify-center rounded-full p-1 hover:bg-red-300"
       >
-        <Trash2 size={22} className="text-red-600 group-hover:text-zinc-100" />
+        <Trash2 size={22} className="text-red-600 group-hover:text-red-800" />
       </button>
     </div>
   )
