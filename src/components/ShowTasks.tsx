@@ -4,6 +4,9 @@ import { useTasks } from '@/hooks/useTasks'
 import { useFilterContext } from '@/contexts/filterContext'
 import TasksSekeleton from './skeletons/TasksSekeleton'
 
+import NoTasksImage from '/public/no-task-image.png'
+import Image from 'next/image'
+
 export const ShowTasks = () => {
   const { tasks, tasksLoading } = useTasks()
   const { filter } = useFilterContext()
@@ -25,6 +28,18 @@ export const ShowTasks = () => {
             />
           ))}
       </div>
+      {!tasksLoading && !filtered?.length && (
+        <div className="flex w-full flex-col items-center justify-center gap-2">
+          <Image
+            src={NoTasksImage}
+            alt="Nenhuma tarefa encontrada."
+            className="w-32 sm:w-[240px]"
+          />
+          <p className="w-[250px] text-center font-title text-lg sm:w-[300px] sm:text-2xl">
+            Nenhum tarefa {filter} Encontrada.
+          </p>
+        </div>
+      )}
       {tasksLoading && <TasksSekeleton />}
     </>
   )
