@@ -38,7 +38,7 @@ export const CreateTaskForm = () => {
           label="título"
           name="title"
           rules={{ required: 'Campo obrigatório.' }}
-          maxLength={15}
+          maxLength={10}
         />
         <InputField
           label="Data de conclusão"
