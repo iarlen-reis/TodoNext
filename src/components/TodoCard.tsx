@@ -19,9 +19,10 @@ export const TodoCard = ({
             <span className="flex self-start rounded-full bg-white px-3 py-1 font-title text-2xl capitalize text-zinc-800">
               {title}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white">
-              <DeleteButton id={id} />
-            </div>
+            <DeleteButton
+              id={id}
+              className="rounded-full bg-zinc-50 p-2 hover:bg-zinc-300"
+            />
           </div>
           <div className="flex flex-col gap-2">
             <span className="w-fit rounded-full bg-white px-3 py-2 font-body text-xs font-medium italic text-zinc-900">
