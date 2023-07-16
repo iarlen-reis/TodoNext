@@ -6,6 +6,7 @@ import { formateDateToShow } from '@/utils/formateDate'
 import { useQuery } from 'react-query'
 import { api } from '@/services/api'
 import { ButtonsTask } from '@/components/buttons/ButtonsTask'
+import { TaskSkeleton } from '@/components/skeletons/TaskSkeleton'
 
 interface IParamProps {
   params: {
@@ -24,7 +25,7 @@ interface ITasksProps {
 }
 
 const Task = ({ params: { id } }: IParamProps) => {
-  const { data: task } = useQuery(
+  const { data: task, isLoading: taskLoading } = useQuery(
     [id],
     async () => {
       const response = await api.get<ITasksProps>(`/tasks/${id}`)
@@ -38,7 +39,7 @@ const Task = ({ params: { id } }: IParamProps) => {
 
   return (
     <div className="m-auto w-full max-w-[500px]">
-      {task && (
+      {!taskLoading && task ? (
         <>
           <p className="mt-3 flex items-center justify-start gap-1 font-body text-sm text-zinc-700">
             <Link href="/" className="font-medium hover:text-zinc-800">
@@ -72,6 +73,8 @@ const Task = ({ params: { id } }: IParamProps) => {
             </p>
           </div>
         </>
+      ) : (
+        <TaskSkeleton />
       )}
     </div>
   )
