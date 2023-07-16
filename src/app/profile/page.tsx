@@ -13,7 +13,7 @@ const Profile = async () => {
           <Image
             src={session.user.image}
             alt={`Foto do usuário ${session.user.name}`}
-            className="rounded-full"
+            className="h-[140px] w-[140px] rounded-full sm:h-[200px] sm:w-[200px]"
             height={200}
             width={200}
           />
@@ -21,7 +21,7 @@ const Profile = async () => {
           <Image
             src={ImageDefault}
             alt={`Foto do usuário ${session?.user?.name}`}
-            className="rounded-full"
+            className="h-[140px] w-[140px] rounded-full sm:h-[200px] sm:w-[200px]"
             height={200}
             width={200}
           />
@@ -29,12 +29,12 @@ const Profile = async () => {
       </div>
       <div className="flex flex-col text-center">
         {session?.user?.name && (
-          <h1 className="font-title text-xl font-bold">
+          <h1 className="font-title text-lg font-bold sm:text-xl">
             {session?.user?.name}
           </h1>
         )}
         {session?.user?.email && (
-          <span className="font-body text-sm font-medium italic">
+          <span className="font-body text-xs font-medium italic sm:text-sm">
             {session?.user?.email}
           </span>
         )}
