@@ -30,7 +30,8 @@ export const LoginForm = () => {
         if (response?.error !== null) {
           return toast.error(response?.error)
         }
-        router.push('/')
+        router.refresh()
+        router.replace('/login', '/')
       })
       .finally(() => {
         setLoginLoading(false)
