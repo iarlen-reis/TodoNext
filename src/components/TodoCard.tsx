@@ -12,11 +12,11 @@ export const TodoCard = ({
   color,
 }: ITodoCardProps) => {
   return (
-    <div className="m-auto w-full max-w-[380px] rounded-md border border-zinc-300 bg-white p-1 shadow shadow-black/10 transition-all hover:scale-[1.08]">
+    <div className="m-auto w-full max-w-[380px] rounded-md border border-zinc-300 bg-white p-1 shadow shadow-black/10 transition-all sm:hover:scale-[1.08]">
       <div className="rounded-md p-3" style={{ backgroundColor: color }}>
         <div className="flex flex-col gap-3">
           <div className="flex w-full items-center justify-between">
-            <span className="flex self-start rounded-full bg-white px-3 py-1 font-title text-2xl capitalize text-zinc-800">
+            <span className="flex self-start rounded-full bg-white px-3 py-1 font-title text-xl capitalize text-zinc-800 sm:text-2xl">
               {title}
             </span>
             <DeleteButton
