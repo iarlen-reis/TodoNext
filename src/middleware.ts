@@ -14,6 +14,13 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
+  if (request.nextUrl.pathname.startsWith('/task')) {
+    if (!session) {
+      const url = new URL(`/login`, request.url)
+      return NextResponse.redirect(url)
+    }
+  }
+
   if (request.nextUrl.pathname.startsWith('/login')) {
     if (session) {
       const url = new URL(`/`, request.url)
@@ -25,7 +32,6 @@ export const middleware = async (request: NextRequest) => {
   if (request.nextUrl.pathname.startsWith('/register')) {
     if (session) {
       const url = new URL(`/`, request.url)
-      console.log(session.sub)
       return NextResponse.redirect(url)
     }
   }
@@ -41,5 +47,11 @@ export const middleware = async (request: NextRequest) => {
 }
 
 export const config = {
-  matcher: ['/:path', '/login:path', '/register:path', '/profile:path'],
+  matcher: [
+    '/:path',
+    '/login:path',
+    '/register:path',
+    '/profile:path',
+    '/task/:path*',
+  ],
 }
