@@ -3,6 +3,7 @@ import Image from 'next/image'
 import UserDefault from '/public/user-default.png'
 import { useGetUser } from '@/hooks/useGetUser'
 import LogoutButton from './LogoutButton'
+import { UserPlus, KeyRoundIcon } from 'lucide-react'
 
 export const Header = async () => {
   const { session } = await useGetUser()
@@ -17,7 +18,7 @@ export const Header = async () => {
           NextTodo
         </Link>
         <ul className="flex list-none items-center gap-5">
-          {session && (
+          {session ? (
             <>
               <li>
                 <Link href="/profile">
@@ -42,6 +43,25 @@ export const Header = async () => {
               </li>
               <li>
                 <LogoutButton />
+              </li>
+            </>
+          ) : (
+            <>
+              <li title="Página de acesso">
+                <Link href="/login">
+                  <KeyRoundIcon
+                    size={25}
+                    className="text-zinc-50 hover:scale-[1.1] hover:fill-zinc-50"
+                  />
+                </Link>
+              </li>
+              <li title="Página de cadastro">
+                <Link href="/register">
+                  <UserPlus
+                    size={25}
+                    className="text-zinc-50 hover:scale-[1.1] hover:fill-zinc-50"
+                  />
+                </Link>
               </li>
             </>
           )}
