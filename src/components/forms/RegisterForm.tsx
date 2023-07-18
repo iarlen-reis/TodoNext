@@ -14,6 +14,10 @@ interface IFormProps {
   password: string
 }
 
+interface IErrorProps {
+  error: string
+}
+
 export const RegisterForm = () => {
   const [loadingRegister, setLoadingRegister] = useState(false)
   const { userRegister } = useAuthContext()
@@ -26,14 +30,11 @@ export const RegisterForm = () => {
     userRegister(user)
       .then((response) => {
         router.push('/login')
-        console.log('criei')
       })
       .catch((error: AxiosError | AxiosError) => {
-        if (error.response?.data) {
-          const { error: message } = error.response.data
+        const message = error.response?.data as IErrorProps
 
-          toast.error(message)
-        }
+        toast.error(message.error)
       })
       .finally(() => {
         setLoadingRegister(false)
