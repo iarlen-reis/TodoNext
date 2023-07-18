@@ -13,9 +13,9 @@ export const Header = async () => {
       <nav className="flex w-full max-w-[1300px] items-center justify-between p-3">
         <Link
           href="/"
-          className="font-title text-2xl text-zinc-50 hover:text-zinc-200"
+          className="animate-pulse font-title text-2xl text-zinc-50 hover:text-zinc-200"
         >
-          NextTodo
+          TodoNext
         </Link>
         <ul className="flex list-none items-center gap-5">
           {session ? (
