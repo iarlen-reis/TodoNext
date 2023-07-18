@@ -1,7 +1,7 @@
 export const HomeTitle = () => {
   return (
-    <div className="m-auto mt-3 flex max-w-[400px] flex-col text-center sm:max-w-[500px]">
-      <span className="animate-pulse font-body text-xl font-semibold uppercase italic text-red-500 sm:text-2xl">
+    <div className="m-auto mt-3 flex max-w-[400px] flex-col sm:max-w-[500px] sm:text-center">
+      <span className="animate-pulse text-start font-body text-xl font-semibold uppercase italic text-red-500 sm:text-2xl">
         TodoNext!
       </span>
       <div className="flex flex-col gap-2">
