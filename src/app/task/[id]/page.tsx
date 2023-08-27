@@ -1,12 +1,17 @@
 'use client'
 
-import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
-import { formateDateToShow } from '@/utils/formateDate'
 import { useQuery } from 'react-query'
 import { api } from '@/services/api'
 import { ButtonsTask } from '@/components/buttons/ButtonsTask'
 import { TaskSkeleton } from '@/components/skeletons/TaskSkeleton'
+import { useTasks } from '@/hooks/useTasks'
+import { AxiosError } from 'axios'
+import TaskError from '@/components/TaskError'
+import PageNavigation from '@/components/PageNavigation'
+import TaskInformation from '@/components/TaskInformation'
+import TaskPublicSwitch from '@/components/TaskPublicSwitch'
+import TaskDescription from '@/components/TaskDescription'
+import { useSession } from 'next-auth/react'
 
 interface IParamProps {
   params: {
@@ -22,10 +27,22 @@ interface ITasksProps {
   description: string
   createdAt: Date
   userId: string
+  isPublic: boolean
+  user: {
+    name: string
+  }
 }
 
 const Task = ({ params: { id } }: IParamProps) => {
-  const { data: task, isLoading: taskLoading } = useQuery(
+  const { handlePublicTask } = useTasks()
+  const { data: session } = useSession()
+
+  const {
+    data: task,
+    isLoading: taskLoading,
+    isError: taskError,
+    error,
+  } = useQuery(
     [id],
     async () => {
       const response = await api.get<ITasksProps>(`/tasks/${id}`)
@@ -33,49 +50,52 @@ const Task = ({ params: { id } }: IParamProps) => {
       return response.data
     },
     {
-      staleTime: 60 * 100 * 3,
+      staleTime: 60 * 100 * 10,
+      onError: (error: AxiosError) => {
+        return error
+      },
     },
   )
 
+  const handlePublic = () => {
+    handlePublicTask({ isPublic: !task?.isPublic, id })
+  }
+
   return (
     <div className="m-auto w-full max-w-[500px]">
-      {!taskLoading && task ? (
+      {task && (
         <>
-          <p className="mt-3 flex items-center justify-start gap-1 font-body text-sm text-zinc-700">
-            <Link href="/" className="font-medium hover:text-zinc-800">
-              Página inicial
-            </Link>
-            <span className="text-base">
-              <ChevronRight size={12} />
-            </span>
-            <span className="font-bold capitalize">{task.title}</span>
-          </p>
+          <PageNavigation title={task.title} />
           <div className="mt-6 flex items-center justify-between">
             <div className="flex flex-col gap-1 sm:gap-2">
-              <h1 className="font-title text-2xl capitalize text-zinc-800 sm:text-3xl">
-                {task.title}
-              </h1>
-              <p className="font-body text-xs text-zinc-700 sm:text-sm">
-                {formateDateToShow(task.dateConclusion)} -{' '}
-                <span className="capitalize">{task.status}</span>
-              </p>
+              <TaskInformation
+                title={task.title}
+                dateConclusion={task.dateConclusion}
+                status={task.status}
+              />
+              {session?.user?.id !== task.userId && (
+                <p className="font-body text-sm text-zinc-700">
+                  Tarefa criada por: {task.user.name}
+                </p>
+              )}
+              {session?.user?.id === task.userId && (
+                <TaskPublicSwitch
+                  isPublic={task.isPublic}
+                  handlePublic={handlePublic}
+                />
+              )}
             </div>
-            <div className="mt-1">
-              <ButtonsTask id={task.id} status={task.status} />
-            </div>
+            {session?.user?.id === task.userId && (
+              <div className="flex self-start">
+                <ButtonsTask id={task.id} status={task.status} />
+              </div>
+            )}
           </div>
-          <div className="mt-3 flex flex-col gap-1">
-            <span className="font-body text-sm text-zinc-800 sm:text-lg">
-              Descrição:
-            </span>
-            <p className="h-[300px] rounded-md p-2 font-body text-sm text-zinc-800">
-              {task.description}
-            </p>
-          </div>
+          <TaskDescription description={task.description} />
         </>
-      ) : (
-        <TaskSkeleton />
       )}
+      {taskLoading && <TaskSkeleton />}
+      {taskError && <TaskError error={error.message} />}
     </div>
   )
 }
