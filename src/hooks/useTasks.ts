@@ -1,6 +1,6 @@
 'use client'
 import { useRouter, usePathname } from 'next/navigation'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 import { api } from '@/services/api'
 
@@ -31,18 +31,6 @@ export const useTasks = (): IUseTasksProps => {
     },
   )
 
-  const { data: tasks, isLoading: tasksLoading } = useQuery(
-    ['tasks'],
-    async () => {
-      const response = await api.get<ITasksProps[]>('/tasks')
-
-      return response.data
-    },
-    {
-      staleTime: 60 * 100 * 10, // 1 minute
-    },
-  )
-
   const { mutate: finishTask } = useMutation(
     async (id: string) => {
       const response = await api.put(`/tasks/${id}`)
@@ -51,23 +39,15 @@ export const useTasks = (): IUseTasksProps => {
     },
     {
       onSuccess: (data: ITasksProps) => {
-        const oldsTasks = queryClient.getQueryData<ITasksProps[]>(['tasks'])
         const oldTask = queryClient.getQueryData<ITasksProps>([data.id])
 
-        data.status = 'conclúida'
+        queryClient.setQueryData([data.id], {
+          ...oldTask,
+          status: 'concluída',
+        })
 
-        if (oldsTasks) {
-          const tasksUpdated = oldsTasks.map((task) =>
-            task.id === data.id ? data : task,
-          )
-
-          queryClient.setQueryData(['tasks'], tasksUpdated)
-          queryClient.setQueryData([data.id], {
-            ...oldTask,
-            status: 'concluída',
-          })
-          toast.success('Tarefa conclúida com sucesso!')
-        }
+        queryClient.refetchQueries(['tasks'])
+        toast.success('Tarefa conclúida com sucesso!')
       },
     },
   )
@@ -97,12 +77,28 @@ export const useTasks = (): IUseTasksProps => {
     },
   )
 
+  const { mutate: handlePublicTask } = useMutation(
+    async (data: Pick<ITasksProps, 'isPublic' | 'id'>) => {
+      const response = await api.patch(`/tasks/${data.id}`, {
+        isPublic: !data.isPublic,
+      })
+
+      return response.data
+    },
+    {
+      onSuccess: (data: ITasksProps) => {
+        const newData = { ...data, isPublic: !data.isPublic }
+
+        queryClient.setQueryData([data.id], newData)
+      },
+    },
+  )
+
   return {
-    tasks,
     createTask,
     finishTask,
     deleteTask,
     loadingCreate,
-    tasksLoading,
+    handlePublicTask,
   }
 }

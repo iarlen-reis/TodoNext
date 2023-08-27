@@ -36,16 +36,9 @@ export const middleware = async (request: NextRequest) => {
     }
   }
 
-  // if (request.nextUrl.pathname.endsWith('/')) {
-  //   if (!session) {
-  //     const url = new URL(`/login`, request.url)
-  //     return NextResponse.redirect(url)
-  //   }
-  // }
-
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/login:path', '/register:path', '/profile:path', '/task/:path*'],
+  matcher: ['/login:path', '/register:path', '/profile:path', '/task:path*'],
 }

@@ -7,6 +7,7 @@ export interface ITasksProps {
   createdAt: Date
   color: string
   userId: string
+  isPublic: boolean
 }
 
 export interface IFormProps {
@@ -16,10 +17,9 @@ export interface IFormProps {
 }
 
 export interface IUseTasksProps {
-  tasks: ITasksProps[] | undefined
   finishTask: (id: string) => void
   deleteTask: (id: string) => void
   createTask: (task: IFormProps) => void
+  handlePublicTask: (data: Pick<ITasksProps, 'isPublic' | 'id'>) => void
   loadingCreate: boolean
-  tasksLoading: boolean
 }
