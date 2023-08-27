@@ -32,23 +32,20 @@ export async function POST(request: NextRequest) {
     )
   }
 
-  const taskShema = z.object({
+  const taskSchema = z.object({
     title: z.string(),
     dateConclusion: z.string(),
     description: z.string(),
     color: z.string(),
   })
 
-  const { title, dateConclusion, description, color } = taskShema.parse(
-    await request.json(),
-  )
+  type ValidatedTask = z.infer<typeof taskSchema>
+
+  const task: ValidatedTask = taskSchema.parse(await request.json())
 
   await prisma.task.create({
     data: {
-      title,
-      dateConclusion,
-      description,
-      color,
+      ...task,
       userId: session.user.id as string,
     },
   })

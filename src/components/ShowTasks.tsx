@@ -1,14 +1,14 @@
 'use client'
 import { TodoCard } from './TodoCard'
-import { useTasks } from '@/hooks/useTasks'
 import { useFilterContext } from '@/contexts/filterContext'
 import TasksSekeleton from './skeletons/TasksSekeleton'
-
 import NoTasksImage from '/public/no-task-image.png'
 import Image from 'next/image'
+import { useTasks } from '@/hooks/useTasks'
 
 export const ShowTasks = () => {
   const { tasks, tasksLoading } = useTasks()
+
   const { filter } = useFilterContext()
 
   const filtered = tasks?.filter((task) => task.status.includes(filter))

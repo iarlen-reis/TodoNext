@@ -1,6 +1,6 @@
 'use client'
 import { useRouter, usePathname } from 'next/navigation'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { toast } from 'react-toastify'
 import { api } from '@/services/api'
 
@@ -14,6 +14,18 @@ export const useTasks = (): IUseTasksProps => {
   const queryClient = useQueryClient()
   const router = useRouter()
   const pathname = usePathname()
+
+  const { data: tasks, isLoading: tasksLoading } = useQuery(
+    ['tasks'],
+    async () => {
+      const response = await api.get<ITasksProps[]>('/tasks')
+
+      return response.data
+    },
+    {
+      staleTime: 60 * 100 * 10, // 1 minute
+    },
+  )
 
   const { mutate: createTask, isLoading: loadingCreate } = useMutation(
     async (data: IFormProps) => {
@@ -95,9 +107,11 @@ export const useTasks = (): IUseTasksProps => {
   )
 
   return {
+    tasks,
     createTask,
     finishTask,
     deleteTask,
+    tasksLoading,
     loadingCreate,
     handlePublicTask,
   }
