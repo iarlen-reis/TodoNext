@@ -69,5 +69,6 @@ model Task {
   description    String
   createdAt      DateTime @default(now())
   userId         String
+  isPublic       Boolean  @default(false)
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
