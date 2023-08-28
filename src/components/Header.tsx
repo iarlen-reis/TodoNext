@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import UserDefault from '/public/user-default.png'
-import { useGetUser } from '@/hooks/useGetUser'
 import LogoutButton from './LogoutButton'
 import { UserPlus, KeyRoundIcon } from 'lucide-react'
+import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
 
 export const Header = async () => {
-  const { session } = await useGetUser()
+  const session = await getServerSession(authOptions)
 
   return (
     <header className="flex h-20 w-full items-center justify-center border-b border-red-200 bg-zinc-900">
